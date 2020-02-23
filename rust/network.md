@@ -152,6 +152,46 @@ fn main() {
 }
 ```
 
+The question mark (?) is a new operator that allows for cleaner error handling, for example this original code can be replaced with:
+```rust
+fn read_username_from_file() -> Result<String, io::Error> {
+    // Notice that file open returns a Result object
+    // pub fn open<P: AsRef<Path>>(path: P) -> Result<File>
+    let f = File::open("username.txt");
+
+    // Therefore we must check the return type, and if it's valid
+    // overwrite the original variable name "f", else raise error
+    let mut f = match f {
+        Ok(file) => file,
+        Err(e) => return Err(e),
+    };
+
+    let mut s = String::new();
+
+    // Initializing an empty string, and then letting the file object
+    // borrow it to update it's value it needs to be mutable
+    // pub fn read_to_string<P: AsRef<Path>>(path: P) -> Result<String>
+    match f.read_to_string(&mut s) {
+        Ok(_) => Ok(s),
+        Err(e) => Err(e),
+    }
+
+    // last object is returned by default, so we return a Result
+}
+```
+
+can be replaced with:
+```rust
+fn read_username_from_file() -> Result<String, io::Error> {
+    let mut f = File::open("username.txt")?;
+    let mut s = String::new();
+
+    f.read_to_string(&mut s)?;
+
+    Ok(s)
+}
+```
+
 
 ## Macros
 
