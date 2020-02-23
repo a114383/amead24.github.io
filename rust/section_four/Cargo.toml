@@ -4,3 +4,7 @@ version = "0.1.0"
 authors = ["anthony <amead2@kent.edu>"]
 
 [dependencies]
+serde = "*"
+serde_derive = "*"
+serde_yaml = "*"
+serde_json = "*"
