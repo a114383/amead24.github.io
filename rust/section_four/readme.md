@@ -9,3 +9,4 @@ I have a project that I created with `cargo new section_four`, and just wanted t
 After reading through the [cargo documentation](https://doc.rust-lang.org/1.4.0/book/hello-cargo.html), turns out `cargo build` includes the necessary external libraries, however the binary is stored inside `./target/debug/<binary>`.
 
 Conversely for quick testing you can also use: `cargo run -- <args>` to differentiate between cargo commands and those to be passed to the binary.
+
