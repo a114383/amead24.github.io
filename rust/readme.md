@@ -223,3 +223,41 @@ fn main(){
         let _ = handle.join();
     }
 }
+
+
+## Iterators
+
+Iterators are lazy, meaning it does nothing until it's actually used.
+```rust
+let v1 = vec![1,2,3];
+let v1_iter = v1.iter();   // nothing has been run
+for val in v1_iter {. . .} // now n executions
+```
+
+If you implement your own iterator, you need to handle the borrowing yourself, and return an `Item` wrapped in `Some<Self::Item>` and `None` when the iteration is over.
+
+```rust
+// To understand the lazyness
+let v1 = vec![1,2,3];
+let sum = v1.iter().map(|x| + 1);           // doesn't compile
+let sum = v1.iter().map(|x| + 1).collect(); // compiles
+```
+
+Read: https://hermanradtke.com/2015/06/22/effectively-using-iterators-in-rust.html
+```rust
+// trying to flatten a 2d array:
+let matrix: Vec<Vec<i32>> = vec![vec![1,0,1], vec![1,1,0], vec![1,1,0]];
+
+// What's the difference?
+let flatten: Vec<i32> = matrix.iter().flatten().collect(); // error
+// a value of type `std::vec::Vec<i32>` cannot be built from an iterator over elements of type `&i32`
+
+let flatten: Vec<i32> = matrix.into_iter().flatten().collect(); // works
+```
+
+`iter()` - "It is important to note that this Iter<'a, T> type only has a reference to T. This means that calling v.iter() will create a struct that borrows from v. Use the iter() function if you want to iterate over the values by reference."
+
+vs. 
+
+`into_iter()` - "Use the into_iter() function when you want to move, instead of borrow, your value. The .into_iter() function creates a IntoIter<T> type that now has ownership of the original value."
+
