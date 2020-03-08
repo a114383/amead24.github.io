@@ -240,7 +240,6 @@ fn main(){
 }
 ```
 
-
 ## Iterators
 
 Iterators are lazy, meaning it does nothing until it's actually used.
