@@ -1,6 +1,18 @@
+var eventBus = new Vue()
+
+
 Vue.component('product-review', {
     template: `
     <form class="review-form" @submit.prevent="onSubmit">
+
+    <p v-if="errors.length">
+        <b>Please correct the following errors:</b>
+        <ul>
+            <li v-for="error in errors">{{ error }}</li>
+        </ul>
+    </p>
+
+
     <p>
       <label for="name">Name:</label>
       <input id="name" v-model="name" placeholder="name">
@@ -8,6 +20,7 @@ Vue.component('product-review', {
     
     <p>
       <label for="review">Review:</label>      
+      <!-- Note: HTML5 allows for a required keyword -->
       <textarea id="review" v-model="review"></textarea>
     </p>
     
@@ -33,21 +46,30 @@ Vue.component('product-review', {
             name: null,
             rating: null,
             review: null,
+            errors: [],
         }
     },
     methods: {
         onSubmit() {
-            let productReview = {
-                name: this.name,
-                review: this.review,
-                rating: this.rating,
+            this.errors = []
+
+            if (this.name && this.review && this.rating) {
+                let productReview = {
+                    name: this.name,
+                    review: this.review,
+                    rating: this.rating,
+                }
+
+                eventBus.$emit('review-submitted', productReview)
+
+                this.name = null
+                this.review = null
+                this.rating = null
+            } else {
+                if(!this.name) this.errors.push("name required")
+                if(!this.review) this.errors.push("review required")
+                if(!this.rating) this.errors.push("rating requied")
             }
-
-            this.$emit('review-submitted', productReview)
-
-            this.name = null
-            this.review = null
-            this.rating = null
         }
     }
 })
@@ -67,6 +89,60 @@ Vue.component('product-details', {
         </ul>
     </div>
     `
+})
+
+
+Vue.component('product-tabs', {
+    props: {
+        reviews: {
+            type: Array,
+            required: true,
+        },
+        details: {
+            type: Array,
+            required: true,
+        },
+        premium: {
+            type: Boolean,
+            required: true,
+        },
+    },
+    template: `
+        <div>
+            <span
+                class="tabs"
+                :class="{ activeTab: selectedTab === tab }"
+                v-for="(tab, index) in tabs" :key=index
+                @click="selectedTab = tab">
+                {{ tab }}
+            </span>
+
+            <div v-show="selectedTab == 'reviews'">
+                <h2> Reviews </h2>
+                <p v-if="!reviews.length">There are no reviews yet.</p>
+                <ul v-else>
+                    <li v-for="review in reviews">{{ review }}</li>
+                </ul>
+            </div>
+
+            <product-review v-show="selectedTab == 'make a review'"></product-review>
+
+            <div v-show="selectedTab == 'shipping'"> 
+                <p>Shipping: {{ shipping }}</p>
+            </div>
+
+            <product-details v-show="selectedTab == 'details'" :details="details"></product-details>
+        </div>                
+    `,
+    data() {
+        return {
+            tabs: ["reviews", "make a review", "shipping", "details"],
+            selectedTab: "reviews",
+        }
+    },
+    computed: {
+        shipping() { return (this.premium) ? "Free!" : "$2.99" }
+    }
 })
 
 
@@ -101,12 +177,6 @@ Vue.component('product', {
             <p v-else-if="lowQuantity">Almost sold out!</p>
             <p v-else>ERROR!</p>
 
-            <p> Shipping: {{ shipping }}</p>
-
-
-            <product-details :details="details"></product-details>
-
-
             <!-- both of these options go for :style or :class
                 :style with conditionals - :style=["attr" ? "isEnabled" : "isNotEnabled"] 
                 :style with objects - :style="someObject" => data.someObject = {"attr": "value", ...}
@@ -132,10 +202,7 @@ Vue.component('product', {
                 <button @click="removeFromCart">Remove From Cart</button>
             </div>
 
-        </div>
-
-        <div id="product-reviews">
-            <product-review @review-submitted="addReview"></product-review>
+            <product-tabs :premium="premium" :reviews="reviews" :details="details"></product-tabs>
         </div>
     </div>
     `,
@@ -179,9 +246,6 @@ Vue.component('product', {
             console.log(`swapping ${this.variantIndex} for ${index}.`)
             this.variantIndex = index
         },
-        addReview(productReview) {
-            this.reviews.push(productReview)
-        }
     },
     computed: {
         // Note computed properties are chached until their data elements change
@@ -200,7 +264,13 @@ Vue.component('product', {
             )
         },
 
-        shipping() { return (this.premium) ? "Free!" : "$2.99" }
+    },
+    mouted() {
+        // lifecycle hook that gets executed when
+        // this component is loaded into the DOM
+        eventBus.$on('review-submitted', productReview => {
+            this.reviews.push(productReview)
+        })
     }
 })
 
@@ -213,6 +283,6 @@ var app = new Vue({
     },
     methods: {
         updateCart(id) { this.cart.push(id) },
-        removeFromCart(id) { this.cart.pop(id) }
+        removeFromCart(id) { this.cart.pop() }
     }
 })
