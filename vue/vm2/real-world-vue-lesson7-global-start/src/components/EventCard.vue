@@ -1,5 +1,8 @@
 <template>
-  <router-link class="event-link" :to="{ name: 'event-show', params: { id: '1' } }">
+  <router-link
+    class="event-link"
+    :to="{ name: 'event-show', params: { id: '1' } }"
+  >
     <div class="event-card -shadow">
       <span class="eyebrow">@{{ event.time }} on {{ event.date }}</span>
       <h4 class="title">{{ event.title }}</h4>
@@ -14,12 +17,14 @@ export default {
     return {
       event: {
         id: 1,
-        title: 'Beach Cleanup',
-        date: 'Tues Aug 19, 2018',
-        time: '6:00',
+        title: 'Drunk Quest',
+        date: 'Every Day',
+        time: '5:00am',
         attendees: [
-          { id: 'abc123', name: 'Adam Jahr' },
-          { id: 'def456', name: 'Gregg Pollack' }
+          { id: '100', name: 'kyle b.' },
+          { id: '101', name: 'stan m.' },
+          { id: '102', name: 'kenny m.' },
+          { id: '103', name: 'eric c.' }
         ]
       }
     }
@@ -41,6 +46,7 @@ export default {
 .event-card > .title {
   margin: 0;
 }
+
 .event-link {
   color: black;
   text-decoration: none;
