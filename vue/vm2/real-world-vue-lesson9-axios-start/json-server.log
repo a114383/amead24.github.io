@@ -1,0 +1,14 @@
+
+  \{^_^}/ hi!
+
+  Loading db.json
+  Done
+
+  Resources
+  http://localhost:8081/events
+
+  Home
+  http://localhost:8081
+
+  Type s + enter at any time to create a snapshot of the database
+Cannot bind to the port 8081. Please specify another port number either through --port argument or through the json-server.json configuration file
