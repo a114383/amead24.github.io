@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <NavBar/>
-    <router-view/>
+    <NavBar />
+    <!-- 
+      Vue router by default only watches the url to know when it needs
+      to reload components.  By setting this :key it will watch query parameters.
+     -->
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
