@@ -11,6 +11,8 @@ npm run serve  # to start a web server
 npm run build  # to create dist/
 ```
 
+There's also a `npm install --save <package>` which does??
+
 `vue cli` - Installed with: `npm install -g @vue/cli` which allows for you to create projects with set defaults. and any additional stuff, or defaults can be set inside `~/.vuerc`:
 
 ```bash
@@ -19,6 +21,6 @@ vue ui                  # create a project with a UI & install plugins
 
 ```
 
-`webpack` - ???
+`webpack` - Note: see also `modular bundlers`??
 
 `babel` - ???
