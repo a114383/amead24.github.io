@@ -25,17 +25,32 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
+import NProgress from 'nprogress'
+import store from '@/store/store'
 
 export default {
   props: ['id'],
-  created() {
-    this.fetchEvent(this.id)
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    NProgress.start()
+
+    // beforeRouteEnter doesn't have access to "this" to dispatch the
+    // action of the "event" store module, which uses the mutation to update
+    // the state with the new event object thus allowing this componenet to use it
+    // ----------------
+    // Instead the component needs to load in the state object and use its dispatch method
+    store.dispatch('event/fetchEvent', routeTo.params.id).then(() => {
+      // Assuming dispatch returns a promise ....
+      // 
+      // once the api call is done (.then()) we can turn off the progress bar
+      // and using next() push the user onto their desired destination
+      NProgress.done()
+      next()
+    })
   },
   computed: mapState({
     event: state => state.event.event
-  }),
-  methods: mapActions('event', ['fetchEvent'])
+  })
 }
 </script>
 <style scoped>
