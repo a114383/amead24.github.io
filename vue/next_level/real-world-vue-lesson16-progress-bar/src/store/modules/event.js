@@ -63,7 +63,9 @@ export const actions = {
     if (event) {
       commit('SET_EVENT', event)
     } else {
-      EventService.getEvent(id)
+      // Without return, the service handles the promise
+      // rather than passing it back to the component to handle
+      return EventService.getEvent(id)
         .then(response => {
           commit('SET_EVENT', response.data)
         })
