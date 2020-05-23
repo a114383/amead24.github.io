@@ -1,3 +1,5 @@
+Note to self: https://github.com/GreenLoofa/vue-rocket/blob/master/src/main.rs
+
 # Networks
 
 ## OSI Model (internet protocol standard)
