@@ -1,0 +1,22 @@
+# the difference between resource yaml's is that the previous demo
+# showed how to estalish a resource minimum requirement.  This is to 
+# establish a resource request limit.  
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard-resource-limit
+spec:
+  containers:
+    - image: amead24/playground:myfirstimagepush
+      name: kuard-resource-limit
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "128Mi"
+        limits:
+          cpu: "1000m"
+          memory: "256Mi"
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP

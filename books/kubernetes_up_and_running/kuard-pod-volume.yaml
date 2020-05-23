@@ -1,0 +1,21 @@
+# volumes are kubernetes take on persistent data storage, like
+# resources these are optional parameters for containers.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard-volume
+spec:
+  volumes:
+    - name: "kuard-data"
+      hostPath:
+        path: "/var/lib/kuard"
+  containers:
+    - image: amead24/playground:myfirstimagepush
+      name: kuard-volume
+      volumeMounts:
+        - mountPath: "/data"
+          name: "kuard-data"
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP

@@ -1,0 +1,11 @@
+version: "3"
+services:
+  this_jupyter:
+    image: jupyter/scipy-notebook
+    ports:
+     - "8888:8888"
+  this_redis:
+    image: redis:alpine
+  this_posstgres:
+    image: postgres:alpine
+

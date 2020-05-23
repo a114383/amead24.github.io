@@ -1,0 +1,21 @@
+version: '3'
+services:
+  this_jupyter:
+    # build vs. image
+    # build is used for a collection of files
+    # to configure a container image
+    build:  docker/jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/jovyan
+    env_file:
+      - config/jupyter.env
+  this_mongo:
+    image: mongo
+    volumes:
+     - mongo_data:/data/db
+# mounting the mongo service as a volume
+# allowing for data persistence
+volumes:
+  mongo_data:

@@ -1,0 +1,24 @@
+# Kubernetes is able to make requests to check the health
+# status of the containers it is watching. But we have to specify
+# the route and parameters for a "healthy" request.
+# see: livenessProbe
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard-healthy
+spec:
+  containers:
+    - image: amead24/playground:myfirstimagepush
+      name: kuard-healthy
+      livenessProbe:
+        httpGet:
+          path: /healthy
+          port: 8080
+        initialDelaySeconds: 5
+        timeoutSeconds: 1
+        periodSeconds: 10
+        failureThreshold: 3
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP

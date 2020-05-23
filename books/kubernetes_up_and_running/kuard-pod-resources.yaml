@@ -1,0 +1,19 @@
+# this is to demonstrate that you can better tailor resource utilization
+# by specifying the resources parameter.  Note that resources are
+# shared by the pod, aka the sum collective of containers in a pod.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard-resources
+spec:
+  containers:
+    - image: amead24/playground:myfirstimagepush
+      name: kuard-resources
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "128Mi"
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP

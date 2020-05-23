@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+    name: kuard-rs
+spec:
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: kuard-rs
+                version: "2"
+        spec:
+            containers:
+                - name: kuard-rs
+                  image: amead24/playground:myfirstimagepush

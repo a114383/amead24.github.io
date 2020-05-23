@@ -1,0 +1,12 @@
+version: '3'
+services:
+  # defining services are pulled from registry
+  # using the image keyword
+  this_jupyter:
+    image: jupyter/scipy-notebook
+    ports:
+     - 8888:8888
+    volumes:
+     - .:/home/jovyan
+  this_redis:
+    image: redis:alpine
