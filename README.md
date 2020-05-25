@@ -1,4 +1,4 @@
-# pages
+# library
 
 ## Project setup
 ```
