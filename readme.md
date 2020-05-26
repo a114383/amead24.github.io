@@ -1,2 +1,3 @@
 # library
-collection of stuffs
+
+collection of things
