@@ -23,6 +23,6 @@ git add -A
 git commit -m 'deploy'
 
 # deploy
-git push -f git@github.com:amead24/library.git master:gh-pages
+git push -f git@github.com:amead24/amead24.github.io.git master
 
 cd -
