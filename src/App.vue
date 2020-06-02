@@ -6,11 +6,12 @@
         Tony Mead - Software & Economics
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text rounded>Home</v-btn>
-      <v-btn text rounded>Articles</v-btn>
+      <v-btn to="/" text rounded>Home</v-btn>
+      <v-btn to="/articles" text rounded>Articles</v-btn>
     </v-app-bar>
 
     <v-content>
+      <router-view></router-view>
     </v-content>
 
     <v-footer color="red" dark app>
