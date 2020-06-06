@@ -1,18 +1,34 @@
 <template>
-  <div>
+  <v-container>
     <h1>Dashboard</h1>
 
-    <SalesGraph v-for="sale in sales" :key="`${sale.title}`" :sale="sale" />
+    <!-- Always do size 12, except on medium and up -->
+    <v-row> 
+      <v-col v-for="sale in sales" :key="`${sale.title}`" cols="12" md="4">
+        <SalesGraph :sale="sale"/>
+      </v-col>
+    </v-row>
 
-    <StatisticCard
-      v-for="statistic in statistics"
-      :key="`${statistic.title}`"
-      :statistic="statistic"
-    />
+    <v-row>
+      <v-col 
+        v-for="statistic in statistics"
+        :key="`${statistic.title}`"
+        cols="12"
+        sm="3"
+        lg="6"
+      >
+        <StatisticCard :statistic="statistic" />
+      </v-col>
+    </v-row>
 
-    <EmployeesTable :employees="employees" @select-employee="setEmployee" />
-
-    <EventTimeline :timeline="timeline" />
+    <v-row>
+      <v-col cols="8" md="9">
+        <EmployeesTable :employees="employees" @select-employee="setEmployee" />
+      </v-col>
+      <v-col cols="4" md="3">
+        <EventTimeline :timeline="timeline" />
+      </v-col>
+    </v-row>
 
     <v-snackbar v-model="snackbar">
       You have selected {{ selectedEmployee.name }},
@@ -21,7 +37,7 @@
         Close
       </v-btn>
     </v-snackbar>
-  </div>
+  </v-container>
 </template>
 
 <script>
