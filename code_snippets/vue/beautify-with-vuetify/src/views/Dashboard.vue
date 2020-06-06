@@ -2,30 +2,30 @@
   <v-container>
     <h1>Dashboard</h1>
 
+    <!-- Always do size 12, except on medium and up -->
     <v-row> 
-      <v-col v-for="sale in sales" :key="`${sale.title}`" >
+      <v-col v-for="sale in sales" :key="`${sale.title}`" cols="12" md="4">
         <SalesGraph :sale="sale"/>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col 
-      v-for="statistic in statistics"
-      :key="`${statistic.title}`"
+        v-for="statistic in statistics"
+        :key="`${statistic.title}`"
+        cols="12"
+        sm="3"
+        lg="6"
       >
-
-    <StatisticCard
-      :statistic="statistic"
-    />
-
+        <StatisticCard :statistic="statistic" />
       </v-col>
     </v-row>
 
     <v-row>
-      <v-col cols="8">
+      <v-col cols="8" md="9">
         <EmployeesTable :employees="employees" @select-employee="setEmployee" />
       </v-col>
-      <v-col cols="4">
+      <v-col cols="4" md="3">
         <EventTimeline :timeline="timeline" />
       </v-col>
     </v-row>
